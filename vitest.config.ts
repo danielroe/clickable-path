@@ -4,7 +4,7 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   resolve: {
     alias: {
-      'package-name': fileURLToPath(
+      'clickable-path': fileURLToPath(
         new URL('./src/index.ts', import.meta.url).href,
       ),
     },
@@ -12,6 +12,7 @@ export default defineConfig({
   test: {
     coverage: {
       include: ['src'],
+      thresholds: { 100: true },
       reporter: ['text', 'json', 'html'],
     },
   },

@@ -1,11 +1,11 @@
 {
-  "name": "package-name",
+  "name": "clickable-path",
   "type": "module",
   "version": "0.0.0",
   "packageManager": "pnpm@11.15.1",
-  "description": "",
+  "description": "Make file paths printed by CLIs ctrl/cmd-clickable, using OSC 8 hyperlinks",
   "license": "MIT",
-  "repository": "danielroe/package-name",
+  "repository": "danielroe/clickable-path",
   "sideEffects": false,
   "exports": {
     ".": "./src/index.ts",
@@ -28,6 +28,9 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=22.1.0"
+  },
   "scripts": {
     "build": "tsdown",
     "dev": "vitest dev",
@@ -42,6 +45,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "9.1.0",
+    "@types/node": "^26.1.1",
     "@vitest/coverage-v8": "4.1.10",
     "eslint": "10.7.0",
     "installed-check": "10.0.1",

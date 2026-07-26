@@ -5,6 +5,6 @@
     "dev": "node index.js"
   },
   "dependencies": {
-    "package-name": "latest"
+    "clickable-path": "latest"
   }
 }

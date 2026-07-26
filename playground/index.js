@@ -1,7 +1,17 @@
 import assert from 'node:assert'
-import * as pkg from 'package-name'
+import { createLinker, link, supportsHyperlinks } from 'clickable-path'
+
+const { link: aliased } = createLinker({
+  formatter: absolute => absolute.replace(import.meta.dirname, '~'),
+})
 
 // eslint-disable-next-line no-console
-console.log(pkg.welcome())
+console.log('supported:', supportsHyperlinks())
+// eslint-disable-next-line no-console
+console.log('relative:', link('./package.json'))
+// eslint-disable-next-line no-console
+console.log('aliased:', aliased('./package.json'))
+// eslint-disable-next-line no-console
+console.log('with line:', link('./index.js', { line: 3, column: 1 }))
 
-assert.strictEqual(pkg.welcome(), 'hello world')
+assert.strictEqual(link('./package.json', { enabled: false }), 'package.json')
