@@ -2,7 +2,7 @@
   "name": "clickable-path",
   "type": "module",
   "version": "0.0.1",
-  "packageManager": "pnpm@11.15.1",
+  "packageManager": "pnpm@11.17.0",
   "description": "Make file paths printed by CLIs ctrl/cmd-clickable, using OSC 8 hyperlinks",
   "license": "MIT",
   "repository": "danielroe/clickable-path",
@@ -44,7 +44,7 @@
     "test:types": "tsc --noEmit"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "9.1.0",
+    "@antfu/eslint-config": "9.2.0",
     "@types/node": "^26.1.1",
     "@vitest/coverage-v8": "4.1.10",
     "eslint": "10.7.0",
@@ -52,7 +52,7 @@
     "knip": "6.27.0",
     "nano-staged": "1.0.2",
     "simple-git-hooks": "2.13.1",
-    "tsdown": "0.22.12",
+    "tsdown": "0.22.14",
     "typescript": "6.0.3",
     "vitest": "4.1.10"
   },
