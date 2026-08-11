@@ -48,7 +48,7 @@
     "@types/node": "26.2.0",
     "@vitest/coverage-v8": "4.1.10",
     "eslint": "10.8.0",
-    "installed-check": "10.0.1",
+    "installed-check": "11.0.0",
     "knip": "6.31.0",
     "nano-staged": "1.0.2",
     "simple-git-hooks": "2.13.1",
