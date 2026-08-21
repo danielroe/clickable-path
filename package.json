@@ -2,7 +2,7 @@
   "name": "clickable-path",
   "type": "module",
   "version": "0.0.1",
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@11.22.0",
   "description": "Make file paths printed by CLIs ctrl/cmd-clickable, using OSC 8 hyperlinks",
   "license": "MIT",
   "repository": "danielroe/clickable-path",
