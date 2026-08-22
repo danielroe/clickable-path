@@ -28,13 +28,6 @@ function atLeast(version: Version, major: number, minor: number): boolean {
   return version.major > major || (version.major === major && version.minor >= minor)
 }
 
-function hasFlag(...flags: string[]): boolean {
-  const argv = process.argv.slice(2)
-  const end = argv.indexOf('--')
-  const args = end === -1 ? argv : argv.slice(0, end)
-  return flags.some(flag => args.includes(`--${flag}`))
-}
-
 function truthy(value: string | undefined): boolean {
   return value !== undefined && value !== '' && value !== '0' && value !== 'false'
 }
@@ -50,14 +43,6 @@ export function supportsHyperlinks(stream: StreamLike | undefined = process.stdo
 
   if (env.FORCE_HYPERLINK !== undefined) {
     return truthy(env.FORCE_HYPERLINK)
-  }
-
-  if (hasFlag('no-hyperlink', 'no-hyperlinks', 'hyperlink=false', 'hyperlink=never')) {
-    return false
-  }
-
-  if (hasFlag('hyperlink', 'hyperlink=true', 'hyperlink=always')) {
-    return true
   }
 
   // Netlify renders build logs as HTML and never allocates a TTY.
