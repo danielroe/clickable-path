@@ -233,17 +233,6 @@ describe('supportsHyperlinks', () => {
     expect(supportsHyperlinks(tty)).toBe(false)
   })
 
-  it('should honour --no-hyperlink and --hyperlink flags', () => {
-    const argv = process.argv
-    process.argv = ['node', 'cli', '--no-hyperlink']
-    expect(supportsHyperlinks(tty)).toBe(false)
-    process.argv = ['node', 'cli', '--hyperlink']
-    expect(supportsHyperlinks(notTty)).toBe(true)
-    process.argv = ['node', 'cli', '--', '--hyperlink']
-    expect(supportsHyperlinks(notTty)).toBe(false)
-    process.argv = argv
-  })
-
   it.each([
     ['iTerm.app', '3.0.0', false],
     ['iTerm.app', '3.1.0', true],

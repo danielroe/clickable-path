@@ -80,7 +80,7 @@ Paths are converted with `pathToFileURL`, so spaces, `#`, `?` and non-ASCII char
 > [!NOTE]
 > No escapes are emitted when the target stream isn't a TTY, or when `CI` is set, as they would otherwise end up in log files. Netlify is the exception, since it renders build logs as HTML and never allocates a TTY.
 
-Overrides, in order of precedence: `FORCE_HYPERLINK` (set to `0` to disable), `--no-hyperlink` / `--hyperlink` flags, then `NO_COLOR` / `NO_HYPERLINK` / `NO_HYPERLINKS`.
+Overrides, in order of precedence: `FORCE_HYPERLINK` (set to `0` to disable), then `NO_COLOR` / `NO_HYPERLINK` / `NO_HYPERLINKS`.
 
 > [!WARNING]
 > `FORCE_HYPERLINK=1` bypasses every check, including the CI and non-TTY ones. Escape sequences will end up in whatever you are redirecting to.
