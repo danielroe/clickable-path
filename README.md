@@ -39,7 +39,7 @@ console.log(link('src/index.ts', { line: 12 }))
 Wraps `path` in an OSC 8 hyperlink pointing at it on disk, labelled with the `cwd`-relative form (plus `:<line>:<column>` if given) or with whatever `options.formatter` returns. Relative input is resolved against `options.cwd`.
 
 > [!NOTE]
-> Node's `util.stripVTControlCharacters` does not fully strip these sequences: its OSC pattern rejects the comma in a `#L12,3` fragment, so it leaves the terminator behind and eats the first character of the URL. If you are measuring visible width, strip with your own OSC 8-aware regex.
+> `util.stripVTControlCharacters` corrupts these sequences on current Node releases, choking on the comma in `#L12,3` ([fixed](https://github.com/nodejs/node/pull/64319) but unreleased). Measure visible width with your own OSC 8-aware regex.
 
 #### `hyperlink(label, url, options?)`
 
