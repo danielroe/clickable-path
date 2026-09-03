@@ -10,7 +10,20 @@ export type { StreamLike } from './supports.ts'
 const OSC = '\u001B]'
 const BEL = '\u0007'
 
-export interface LinkOptions {
+export interface HyperlinkOptions {
+  /** Stream whose TTY state determines whether escapes are emitted. Defaults to `process.stdout`. */
+  stream?: StreamLike
+  /** Force hyperlinks on or off, bypassing terminal detection. */
+  enabled?: boolean
+  /**
+   * OSC 8 `id` param, letting a terminal treat separate runs of cells as one
+   * hyperlink, so a label wrapped across lines highlights as a whole on hover.
+   * Must not contain `;`, `:` or `=`.
+   */
+  id?: string
+}
+
+export interface LinkOptions extends HyperlinkOptions {
   /**
    * Builds the visible label from the absolute target and any `line`/`column`,
    * e.g. as a CLI's own alias: `absolute => absolute.replace(rootDir, '~')`.
@@ -22,20 +35,10 @@ export interface LinkOptions {
   formatter?: (absolute: string, line?: number, column?: number) => string
   /** Directory used to resolve relative paths. Defaults to `process.cwd()`, read at call time. */
   cwd?: string
-  /** Stream whose TTY state determines whether escapes are emitted. Defaults to `process.stdout`. */
-  stream?: StreamLike
   /** 1-based line number, shown as `:<line>` in the default label and linked as `#L<line>`. */
   line?: number
   /** 1-based column number, shown and linked after the line as `:<column>`. */
   column?: number
-  /** Force hyperlinks on or off, bypassing terminal detection. */
-  enabled?: boolean
-  /**
-   * OSC 8 `id` param, letting a terminal treat separate runs of cells as one
-   * hyperlink, so a label wrapped across lines highlights as a whole on hover.
-   * Must not contain `;`, `:` or `=`.
-   */
-  id?: string
 }
 
 export interface Linker {
@@ -94,13 +97,25 @@ export function link(target: string, options: LinkOptions = {}): string {
   const [suffix, fragment] = position(options)
   const label = options.formatter?.(absolute, options.line, options.column) ?? relative + suffix
 
+  return hyperlink(label, url + fragment, options)
+}
+
+/**
+ * Wrap `label` in an OSC 8 hyperlink pointing at `url`, which is used as the
+ * link target verbatim: no path resolution and no `file://` conversion.
+ *
+ * The label is emitted byte-for-byte, so a label that already contains colour
+ * escapes is passed through untouched. When the terminal does not support
+ * hyperlinks the label is returned on its own.
+ */
+export function hyperlink(label: string, url: string, options: HyperlinkOptions = {}): string {
   if (!(options.enabled ?? supportsHyperlinks(options.stream))) {
     return label
   }
 
   const params = options.id === undefined ? '' : `id=${options.id}`
 
-  return `${OSC}8;${params};${url}${fragment}${BEL}${label}${OSC}8;;${BEL}`
+  return `${OSC}8;${params};${url}${BEL}${label}${OSC}8;;${BEL}`
 }
 
 /**
