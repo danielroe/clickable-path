@@ -5,7 +5,7 @@ import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 import { stripVTControlCharacters } from 'node:util'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createLinker, link, supportsHyperlinks } from '../src'
+import { createLinker, hyperlink, link, supportsHyperlinks } from '../src'
 
 const tty = { isTTY: true }
 const notTty = { isTTY: false }
@@ -192,6 +192,36 @@ describe('createLinker', () => {
     const { link } = createLinker({ enabled: true, cwd: '/project/app', formatter: alias })
     expect(parse(link('a.ts', { formatter: () => 'custom' })).label).toBe('custom')
     expect(parse(link('a.ts', { cwd: '/other' })).url).toBe('file:///other/a.ts')
+  })
+})
+
+describe('hyperlink', () => {
+  it('should use the url as the target verbatim', () => {
+    const output = hyperlink('e1', 'https://nuxt.com/docs/errors/e1', { enabled: true })
+    expect(JSON.stringify(output)).toMatchInlineSnapshot(`""\\u001b]8;;https://nuxt.com/docs/errors/e1\\u0007e1\\u001b]8;;\\u0007""`)
+    expect(parse(output)).toEqual({ label: 'e1', url: 'https://nuxt.com/docs/errors/e1' })
+  })
+
+  it('should not resolve a url-like label against the cwd', () => {
+    expect(parse(hyperlink('open', 'vscode://file/a/b.ts:1', { enabled: true })).url).toBe('vscode://file/a/b.ts:1')
+  })
+
+  it('should return the bare label when disabled', () => {
+    expect(hyperlink('e1', 'https://nuxt.com', { enabled: false })).toBe('e1')
+  })
+
+  it('should return the bare label for a non-TTY stream', () => {
+    expect(hyperlink('e1', 'https://nuxt.com', { stream: notTty })).toBe('e1')
+  })
+
+  it('should emit an id param when given one', () => {
+    expect(JSON.stringify(hyperlink('e1', 'https://nuxt.com', { enabled: true, id: 'docs' }))).toMatchInlineSnapshot(`""\\u001b]8;id=docs;https://nuxt.com\\u0007e1\\u001b]8;;\\u0007""`)
+  })
+
+  it('should pass a pre-styled label through untouched', () => {
+    const label = `\u001B[4m${'nuxt.com'}\u001B[24m`
+    const output = hyperlink(label, 'https://nuxt.com', { enabled: true })
+    expect(parse(output).label).toBe(label)
   })
 })
 

@@ -38,6 +38,21 @@ console.log(link('src/index.ts', { line: 12 }))
 
 Wraps `path` in an OSC 8 hyperlink pointing at it on disk, labelled with the `cwd`-relative form (plus `:<line>:<column>` if given) or with whatever `options.formatter` returns. Relative input is resolved against `options.cwd`.
 
+> [!NOTE]
+> Node's `util.stripVTControlCharacters` does not fully strip these sequences: its OSC pattern rejects the comma in a `#L12,3` fragment, so it leaves the terminator behind and eats the first character of the URL. If you are measuring visible width, strip with your own OSC 8-aware regex.
+
+#### `hyperlink(label, url, options?)`
+
+Wraps `label` in an OSC 8 hyperlink pointing at `url`, which is used as the target verbatim: no path resolution and no `file://` conversion. Use this for links that are already URLs (a docs page, an issue, a `vscode://` deep link); use `link` for file paths.
+
+```js
+import { hyperlink } from 'clickable-path'
+
+console.log(hyperlink('E1: missing config', 'https://nuxt.com/docs/errors/e1'))
+```
+
+`label` is emitted byte-for-byte, so a label that already contains colour escapes is passed through untouched. Accepts the `enabled`, `stream` and `id` options (`HyperlinkOptions`), and returns `label` alone when hyperlinks are unsupported.
+
 #### `createLinker(defaults?)`
 
 Returns a `{ link }` with `defaults` pre-applied, so you can configure a `formatter` and cwd once rather than at every call site:
