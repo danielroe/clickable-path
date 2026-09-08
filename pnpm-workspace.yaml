@@ -10,4 +10,4 @@ allowBuilds:
   simple-git-hooks: true
 
 overrides:
-  clickable-path: 'link:.'
+  clickable-path: 'workspace:*'
