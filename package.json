@@ -60,7 +60,7 @@
     "@vitest/coverage-v8": "5.0.0",
     "eslint": "10.10.0",
     "installed-check": "11.0.0",
-    "knip": "6.34.0",
+    "knip": "6.35.1",
     "nano-staged": "1.0.2",
     "simple-git-hooks": "2.14.0",
     "tsdown": "0.22.14",
