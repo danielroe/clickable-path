@@ -57,7 +57,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "10.0.0",
     "@types/node": "26.4.1",
-    "@vitest/coverage-v8": "5.0.5",
+    "@vitest/coverage-v8": "5.1.0",
     "eslint": "10.14.0",
     "installed-check": "11.0.0",
     "knip": "6.44.1",
@@ -65,7 +65,7 @@
     "simple-git-hooks": "2.14.0",
     "tsdown": "0.22.14",
     "typescript": "6.0.3",
-    "vitest": "5.0.5"
+    "vitest": "5.1.0"
   },
   "simple-git-hooks": {
     "pre-commit": "npx nano-staged"
